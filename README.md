@@ -23,7 +23,7 @@ pnpm dsh plugin --profile web add github:<你的用户名>/dsh-rainbow-status
 npx @deepseek-ai/dsh plugin --profile web add github:<你的用户名>/dsh-rainbow-status
 ```
 
-然后**重启该 profile 的实例**（bundle 层在启动时装配）。浏览器刷新页面即可看到效果。卸载把 `add` 换成 `remove dsh-rainbow-status`。
+然后**重启该 profile 的实例**（bundle 层在启动时装配）。浏览器刷新页面即可看到效果。卸载方式见下方「卸载」一节。
 
 > npx 用户注意：npx 每次可能拉取最新版 dsh，而本插件依赖的 client 插件契约（`dsh.client` 清单、`__ModuleLoader__` 注册格式、`locale`/`timer` 服务）在 pre-release 阶段快速演进。建议用 `npx @deepseek-ai/dsh@<版本>` 钉住与插件验证过的版本；dsh 升级后如插件加载失败（fail loud），请到上游仓库对照最新契约更新。
 
@@ -52,10 +52,14 @@ npx @deepseek-ai/dsh plugin --profile web add github:<你的用户名>/dsh-rainb
 ## 卸载
 
 ```sh
+# 从 DSH 源码仓库运行：
 pnpm dsh plugin --profile web remove dsh-rainbow-status
+
+# 或 npx 方式（无需仓库）：
+npx @deepseek-ai/dsh plugin --profile web remove dsh-rainbow-status
 ```
 
-重启实例后彻底移除（语言、字典、样式全部随插件卸载自动还原）。
+重启实例后彻底移除（语言、字典、样式全部随插件卸载自动还原）。`remove` 与当前目录无关 —— 转发器固定操作 `~/.dsh/profiles/web`；本仓库源码与 GitHub 远程不受影响。若 `node_modules` 残留链接，在 profile 目录跑一次 `pnpm install` 对账（勿对 junction 用递归删除）。
 
 ## 原理（locale 接缝）
 
