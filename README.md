@@ -27,7 +27,7 @@ npx @deepseek-ai/dsh plugin --profile web add github:<你的用户名>/dsh-rainb
 
 > npx 用户注意：npx 每次可能拉取最新版 dsh，而本插件依赖的 client 插件契约（`dsh.client` 清单、`__ModuleLoader__` 注册格式、`locale`/`timer` 服务）在 pre-release 阶段快速演进。建议用 `npx @deepseek-ai/dsh@<版本>` 钉住与插件验证过的版本；dsh 升级后如插件加载失败（fail loud），请到上游仓库对照最新契约更新。
 
-> 注意：如果你此前用 `file:///` 行本地挂载过本插件，安装 bundle 版前请先删掉那一行 —— 同包名双行会触发 `resolves from multiple active Loader sources` 冲突（fail loud）。
+> 注意：如果你此前用 `file:///` 行本地挂载过本插件，安装 bundle 版前请先删掉那一行 —— 同包名双行会触发 `resolves from multiple active Loader sources` 冲突，且发生在启动装配段时**整个服务无法启动**（不是本插件降级）。排障口诀：查 live 层有没有与 `dsh.profile.bundles` 同包名的行。
 
 ## 本地开发（免安装挂载）
 
