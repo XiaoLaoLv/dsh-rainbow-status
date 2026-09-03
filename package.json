@@ -1,0 +1,31 @@
+{
+  "name": "dsh-rainbow-status",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness chat running-status customization: rotating phrase pool with animated rainbow gradient text. Browser-half only, zero dependencies, zero build.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "plugin"
+  ],
+  "license": "MIT"
+}
