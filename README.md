@@ -13,13 +13,19 @@ DeepSeek Harness（DSH）聊天运行状态定制插件：把默认的「深度�
 
 ## 安装（GitHub 一条命令）
 
-在 DSH 所在的仓库执行：
+前提：机器上装有 pnpm（`dsh plugin` 是 pnpm 转发器，缺失时会明确报错）。
 
 ```sh
+# 从 DSH 源码仓库运行：
 pnpm dsh plugin --profile web add github:<你的用户名>/dsh-rainbow-status
+
+# 或 npx 方式（无需仓库）：
+npx @deepseek-ai/dsh plugin --profile web add github:<你的用户名>/dsh-rainbow-status
 ```
 
-然后**重启该 profile 的实例**（bundle 层在启动时装配）。浏览器刷新页面即可看到效果。
+然后**重启该 profile 的实例**（bundle 层在启动时装配）。浏览器刷新页面即可看到效果。卸载把 `add` 换成 `remove dsh-rainbow-status`。
+
+> npx 用户注意：npx 每次可能拉取最新版 dsh，而本插件依赖的 client 插件契约（`dsh.client` 清单、`__ModuleLoader__` 注册格式、`locale`/`timer` 服务）在 pre-release 阶段快速演进。建议用 `npx @deepseek-ai/dsh@<版本>` 钉住与插件验证过的版本；dsh 升级后如插件加载失败（fail loud），请到上游仓库对照最新契约更新。
 
 > 注意：如果你此前用 `file:///` 行本地挂载过本插件，安装 bundle 版前请先删掉那一行 —— 同包名双行会触发 `resolves from multiple active Loader sources` 冲突（fail loud）。
 
