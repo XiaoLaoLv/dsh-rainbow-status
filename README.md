@@ -1,6 +1,6 @@
 # dsh-rainbow-status
 
-DeepSeek Harness（DSH）聊天运行状态定制插件：把默认的「深度求索中...」换成**随机轮换的文案池**（默认 8 条），并配上**流动彩虹渐变字** + **前置动效图标**（默认 ⏳ 翻转）。
+DeepSeek Harness（DSH）聊天运行状态定制插件：把默认的「深度求索中...」换成**随机轮换的文案池**（默认 8 条），并配上**流动彩虹渐变字** + **前置动画图标**（彩虹风车，SMIL 原生动画）。
 
 纯浏览器半插件：零依赖、零构建、无 Host 逻辑。改动即热生效（无需刷新页面，无需重启）。
 
@@ -46,9 +46,9 @@ npx @deepseek-ai/dsh plugin --profile web add github:<你的用户名>/dsh-rainb
 
 - `PHRASES` —— 文案池（数组，随意增删；少于 2 条时停止轮换）；
 - `ROTATE_MS` —— 轮换间隔毫秒数；
-- `ICON` —— 前置图标：`content` 换 emoji，`animation` 在 5 个预置动画里挑（`rainbow-icon-bounce` 弹跳 / `-spin` 旋转 / `-pulse` 脉冲 / `-wiggle` 摇摆 / `-flip` 翻转）。
+- `ICON_URL` —— 前置动画图标的 data URI。默认是 [svg-spinners](https://github.com/n3r4zzurr0/svg-spinners) 的风车（SMIL 动画，浏览器原生播放、零 JS）；换成任何动画 SVG / GIF / WebP 的 data URI 即可，图标大小在 `STATUS_CSS` 的 `::before` 规则里调（`width` / `height` / `vertical-align`）。
 
-彩虹配色在 `STATUS_CSS` 里，改 `linear-gradient` 的色标即可；图标经 `::before` 注入，`-webkit-text-fill-color: currentcolor` 保住 emoji 原色（不被渐变色裁掉）。
+彩虹配色：文字渐变改 `STATUS_CSS` 里 `linear-gradient` 的色标；风车配色改 `ICON_URL` 里 `linearGradient` 的 `stop-color`（注意 data URI 里 `#` 要写成 `%23`）。
 
 ## 卸载
 
@@ -71,7 +71,7 @@ npx @deepseek-ai/dsh plugin --profile web remove dsh-rainbow-status
 3. `setLocale('zh-x-rainbow')` 切换过去 —— 查找逐键走 fallback 链，其余文案全部回落原语言；
 4. 文案轮换 = 字典热替换：注销旧注册再注册新文案，revision 提升让已挂载文案立即刷新；
 5. `MutationObserver` 盯状态行（`[role="status"][aria-live="polite"]`）出现/消失，只在可见期间用 `timer` 服务定时轮换；
-6. 样式经 `document.head` 注入 `<style>`，用稳定属性选择器命中 TurnStatus（其类名是 CSS Module 哈希，不可依赖）；前置图标用同一选择器的 `::before` 伪元素渲染，父级渐变裁字不影响 emoji 原色；
+6. 样式经 `document.head` 注入 `<style>`，用稳定属性选择器命中 TurnStatus（其类名是 CSS Module 哈希，不可依赖）；前置图标用同一选择器的 `::before` + `background-image` 渲染 —— 图标是内嵌 data URI 的 SMIL 动画 SVG（[svg-spinners](https://github.com/n3r4zzurr0/svg-spinners)，MIT），image 上下文里浏览器原生播放动画，不占 JS、离线可用；
 7. 所有副作用（样式、语言、字典、定时器、observer）挂在 `ctx.effect` 清理链上，卸载/热替换完全可逆。
 
 ## 兼容性

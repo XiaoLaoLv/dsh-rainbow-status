@@ -1,6 +1,6 @@
 {
   "name": "dsh-rainbow-status",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DeepSeek Harness chat running-status customization: rotating phrase pool with animated rainbow gradient text. Browser-half only, zero dependencies, zero build.",
   "type": "module",
   "exports": {
